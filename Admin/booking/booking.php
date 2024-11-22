@@ -7,7 +7,7 @@ $db = Database::getInstance();
 $conn = $db->getConnection();
 
 // Define the number of records per page
-$records_per_page = 5;
+$records_per_page = 10;
 
 // Get the current page number from the URL, default is page 1
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -217,7 +217,7 @@ $total_pages = ceil($total_records / $records_per_page);
     <section id="content">
         <nav>
             <i class='bx bx-menu toggle-sidebar'></i>
-            <form action="" method="GET">
+            <form action="" method="GET" id = "search-form">
                 <div class="form-group">
                     <input
                         type="text"
@@ -287,8 +287,10 @@ $total_pages = ceil($total_records / $records_per_page);
 
     <script>
         function searchCustomer() {
-            let input = document.getElementById("search").value;
+            let inputElement = document.getElementById("search");
+            let input = inputElement.value;
             let resultsDiv = document.getElementById("searchResults");
+            const form = document.getElementById('search-form');
 
             // Hiển thị dropdown nếu nhập ít nhất 1 ký tự
             if (input.length > 0) {
@@ -305,7 +307,9 @@ $total_pages = ceil($total_records / $records_per_page);
                                 a.href = "#";
                                 a.textContent = `${item.ho_va_ten} - ${item.so_dien_thoai}`;
                                 a.onclick = function(e) {
-                                    e.preventDefault(); // Ngăn chặn hành vi mặc định
+                                    //e.preventDefault(); // Ngăn chặn hành vi mặc định
+                                    inputElement.value = item.so_dien_thoai;
+                                    form.submit();
                                     highlightAndScroll(item.id); // Highlight và scroll đến dòng
                                     resultsDiv.style.display = 'none'; // Ẩn dropdown
                                 };
