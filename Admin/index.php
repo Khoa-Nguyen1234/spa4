@@ -24,7 +24,7 @@
 			<li><a href="../Admin/service/service.php"><i class='bx bxs-chart icon'></i> Quản lý dịch vụ</a></li>
 			<li><a href="./banner/banner.php"><i class='bx bxs-widget icon'></i>Banner</a></li>
 			<li class="divider" data-text="table and forms">Table and forms</li>
-			<li><a href="#"><i class='bx bx-table icon'></i> Khách hàng</a></li>
+			<li><a href="./customer/customer.php"><i class='bx bx-table icon'></i> Khách hàng</a></li>
 			<li>
 				<a href="#"><i class='bx bxs-notepad icon'></i> Khu vực </a>
 			</li>
