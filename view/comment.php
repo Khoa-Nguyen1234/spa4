@@ -163,6 +163,7 @@
 </div>
 
 <script>
+    // Khởi tạo Swiper
     let swiper = new Swiper('.swiper.init-swiper', {
         loop: true,
         speed: 600,
@@ -176,26 +177,16 @@
             clickable: true
         },
         on: {
-            slideChange: function() {
-                // Khi slide thay đổi, đóng video cũ
-                const currentSlide = document.querySelector('.swiper-slide.swiper-slide-active');
-                const prevSlide = document.querySelector('.swiper-slide.swiper-slide-prev');
-
-                // Đóng video của slide trước khi vuốt sang slide mới
-                if (prevSlide) {
-                    const prevItemId = prevSlide.querySelector('.testimonial-item').id;
-                    closeVideo(prevItemId);
-                }
-
-                // Đóng video của slide hiện tại
-                if (currentSlide) {
-                    const currentItemId = currentSlide.querySelector('.testimonial-item').id;
-                    closeVideo(currentItemId);
-                }
+            slideChangeTransitionStart: function() {
+                // Đóng tất cả video khi bắt đầu chuyển slide
+                const slides = document.querySelectorAll('.swiper-slide');
+                slides.forEach(slide => {
+                    const itemId = slide.querySelector('.testimonial-item')?.id;
+                    if (itemId) closeVideo(itemId);
+                });
             }
         }
     });
-
     // Hàm mở video
     function openVideo(itemId, videoUrl) {
         // Lấy phần tử video-box và iframe theo ID
