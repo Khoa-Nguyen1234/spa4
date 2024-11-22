@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+// Kiểm tra nếu chưa đăng nhập
+if (!isset($_SESSION['admin_id']) || !isset($_SESSION['username'])) {
+	// Lưu thông báo vào session để hiển thị trên trang đăng nhập
+	$_SESSION['message'] = "Vui lòng đăng nhập để tiếp tục.";
+	header("Location: ../view/admin/Login-Admin.php");
+	exit(); // Ngăn truy cập khi chưa đăng nhập
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,14 +22,32 @@
 	<title>AdminSite</title>
 	<link href="./img/icons8-spa-flower-96.png" rel="icon">
 </head>
+<style>
+	.alert {
+		background-color: #f44336;
+		color: white;
+		padding: 10px;
+		margin-bottom: 15px;
+		text-align: center;
+		border-radius: 5px;
+	}
+</style>
 
 <body>
 
+	<!-- Hiển thị thông báo nếu có -->
+	<?php
+	if (isset($_SESSION['message'])) {
+		echo '<div class="alert">' . $_SESSION['message'] . '</div>';
+		// Xóa thông báo sau khi hiển thị
+		unset($_SESSION['message']);
+	}
+	?>
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand"><i class='bx bxs-smile icon'></i> AdminSite</a>
 		<ul class="side-menu">
-			<li><a href="#" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
+			<li><a href="./index.php" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
 			<li class="divider" data-text="main">Main</li>
 			<li>
 				<a href="./booking/booking.php"><i class='bx bxs-inbox icon'></i> Phiếu đặt lịch </a>

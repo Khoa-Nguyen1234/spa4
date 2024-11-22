@@ -310,6 +310,12 @@
   <a href="" target="_blank" class="zalo-icon">
     <img src="./assets/img/icons8-zalo-48.png" alt="Chat on Zalo">
   </a>
+  <a href="" target="_blank" class="facebook-icon">
+    <img src="./assets/img/facebook.png" alt="Chat on Facebook">
+  </a>
+  <a href="" target="_blank" class="tiktok-icon">
+    <img src="./assets/img/tiktok.png" alt="Chat on Tiktok">
+  </a>
 
   <!-- Chat Widget -->
   <div id="chatWidget" class="chat-widget">

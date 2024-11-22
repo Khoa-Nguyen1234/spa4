@@ -6,9 +6,41 @@ require_once('../../model/db.php');
 $db = Database::getInstance();
 $conn = $db->getConnection();
 
-// Fetch data from the 'phieu_dat' table
-$query = "SELECT * FROM phieu_dat";
-$result = $conn->query($query);
+// Define the number of records per page
+$records_per_page = 5;
+
+// Get the current page number from the URL, default is page 1
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$search_term = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Calculate the offset for the SQL query
+$offset = ($page - 1) * $records_per_page;
+
+// Fetch data from the 'phieu_dat' table with LIMIT and OFFSET based on search term
+$query = "SELECT * FROM phieu_dat WHERE ho_va_ten LIKE ? OR so_dien_thoai LIKE ? LIMIT $records_per_page OFFSET $offset";
+$stmt = $conn->prepare($query);
+$search_like = '%' . $search_term . '%';
+$stmt->bind_param('ss', $search_like, $search_like);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Fetch all data (without pagination) for the search
+$query_all = "SELECT * FROM phieu_dat WHERE ho_va_ten LIKE ? OR so_dien_thoai LIKE ?";
+$stmt_all = $conn->prepare($query_all);
+$stmt_all->bind_param('ss', $search_like, $search_like);
+$stmt_all->execute();
+$result_all = $stmt_all->get_result();
+
+// Get the total number of records to calculate the number of pages
+$total_records_query = "SELECT COUNT(*) as total FROM phieu_dat WHERE ho_va_ten LIKE ? OR so_dien_thoai LIKE ?";
+$stmt_count = $conn->prepare($total_records_query);
+$stmt_count->bind_param('ss', $search_like, $search_like);
+$stmt_count->execute();
+$total_records_result = $stmt_count->get_result();
+$total_records = $total_records_result->fetch_assoc()['total'];
+
+// Calculate the total number of pages
+$total_pages = ceil($total_records / $records_per_page);
 ?>
 
 <!DOCTYPE html>
@@ -63,6 +95,20 @@ $result = $conn->query($query);
             color: #999;
         }
 
+        /* Highlight searched rows */
+        tr[data-id] {
+            transition: border 0.3s ease;
+        }
+
+        tr[data-id]:hover {
+            background-color: #f1f1f1;
+        }
+
+        .highlight {
+            background-color: #a0c4c7 !important;
+            border: 2px solid red !important;
+        }
+
         /* Heading Styles */
         h1 {
             font-size: 24px;
@@ -82,6 +128,7 @@ $result = $conn->query($query);
             border: 1px solid #ddd;
         }
 
+        /* Dropdown menu */
         .dropdown-results {
             max-height: 200px;
             overflow-y: auto;
@@ -104,9 +151,29 @@ $result = $conn->query($query);
             background-color: #f1f1f1;
         }
 
-        /* Highlight searched rows */
-        .highlight {
-            background-color: #a0c4c7 !important;
+        /* Pagination Styling */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 10px;
+            margin: 0 5px;
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .pagination a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .pagination .active {
+            background-color: #4CAF50;
+            color: white;
         }
 
         /* Responsive Design */
@@ -130,10 +197,17 @@ $result = $conn->query($query);
     <section id="sidebar">
         <a href="#" class="brand"><i class='bx bxs-smile icon'></i> AdminSite</a>
         <ul class="side-menu">
-            <li><a href="../index.php" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
+            <li><a href="../index.php"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
             <li class="divider" data-text="main">Main</li>
             <li>
-                <a href="#"><i class='bx bxs-inbox icon'></i> Phiếu đặt lịch </a>
+                <a href="./booking.php" class="active"><i class='bx bxs-inbox icon'></i> Phiếu đặt lịch </a>
+            </li>
+            <li><a href="../service/service.php"><i class='bx bxs-chart icon'></i> Quản lý dịch vụ</a></li>
+            <li><a href="../banner/banner.php"><i class='bx bxs-widget icon'></i>Banner</a></li>
+            <li class="divider" data-text="table and forms">Table and forms</li>
+            <li><a href="../customer/customer.php"><i class='bx bx-table icon'></i> Khách hàng</a></li>
+            <li>
+                <a href="#"><i class='bx bxs-notepad icon'></i> Khu vực </a>
             </li>
         </ul>
     </section>
@@ -143,13 +217,20 @@ $result = $conn->query($query);
     <section id="content">
         <nav>
             <i class='bx bx-menu toggle-sidebar'></i>
-            <form action="" method="POST">
+            <form action="" method="GET">
                 <div class="form-group">
-                    <input type="text" name="search" id="search" placeholder="Search by customer name..." oninput="searchCustomer()" autocomplete="off">
+                    <input
+                        type="text"
+                        name="search"
+                        id="search"
+                        placeholder="Tìm kiếm họ tên và số điện thoại"
+                        oninput="searchCustomer()"
+                        autocomplete="off">
                     <i class='bx bx-search icon'></i>
                 </div>
-                <div id="searchResults" class="dropdown-results" style="display:none;"></div>
+                <div id="searchResults" class="dropdown-results"></div>
             </form>
+
         </nav>
         <!-- NAVBAR -->
 
@@ -174,7 +255,7 @@ $result = $conn->query($query);
                     if ($result->num_rows > 0) {
                         // Output each row
                         while ($row = $result->fetch_assoc()) {
-                            echo '<tr>';
+                            echo '<tr data-id="' . $row['id'] . '">';
                             echo '<td>' . $row['id'] . '</td>';
                             echo '<td>' . $row['ten_dichvu'] . '</td>';
                             echo '<td>' . $row['ho_va_ten'] . '</td>';
@@ -183,81 +264,88 @@ $result = $conn->query($query);
                             echo '</tr>';
                         }
                     } else {
-                        echo '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+                        echo '<tr><td colspan="5">No records found</td></tr>';
                     }
                     ?>
                 </tbody>
             </table>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <?php
+                // Display pagination links
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    $active_class = $i == $page ? 'active' : '';
+                    echo '<a href="?page=' . $i . '&search=' . urlencode($search_term) . '" class="' . $active_class . '">' . $i . '</a>';
+                }
+                ?>
+            </div>
         </main>
         <!-- MAIN -->
     </section>
-    <!-- NAVBAR -->
+    <!-- CONTENT -->
 
     <script>
         function searchCustomer() {
-            let input = document.getElementById('search').value.toLowerCase();
-            let rows = document.querySelectorAll('#customerData tr');
-            let found = false;
+            let input = document.getElementById("search").value;
+            let resultsDiv = document.getElementById("searchResults");
 
-            // If the input is empty, reset all rows and hide search results
-            if (input === '') {
-                rows.forEach(function(row) {
-                    row.classList.remove('highlight');
-                });
-                document.getElementById('searchResults').style.display = 'none';
-                return;
+            // Hiển thị dropdown nếu nhập ít nhất 1 ký tự
+            if (input.length > 0) {
+                resultsDiv.style.display = 'block';
+
+                // Thực hiện AJAX request để lấy dữ liệu từ server
+                fetch('search.php?query=' + input)
+                    .then(response => response.json())
+                    .then(data => {
+                        resultsDiv.innerHTML = ''; // Xóa kết quả cũ
+                        if (data.length > 0) {
+                            data.forEach(item => {
+                                let a = document.createElement('a');
+                                a.href = "#";
+                                a.textContent = `${item.ho_va_ten} - ${item.so_dien_thoai}`;
+                                a.onclick = function(e) {
+                                    e.preventDefault(); // Ngăn chặn hành vi mặc định
+                                    highlightAndScroll(item.id); // Highlight và scroll đến dòng
+                                    resultsDiv.style.display = 'none'; // Ẩn dropdown
+                                };
+                                resultsDiv.appendChild(a);
+                            });
+                        } else {
+                            resultsDiv.innerHTML = '<a>Không tìm thấy dữ liệu</a>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        resultsDiv.innerHTML = '<a>Lỗi tải dữ liệu</a>';
+                    });
+            } else {
+                resultsDiv.style.display = 'none'; // Ẩn dropdown nếu không nhập
             }
+        }
 
-            // Search and highlight matching rows
-            rows.forEach(function(row) {
-                let name = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-                if (name.indexOf(input) > -1) {
+        function highlightAndScroll(id) {
+            // Lấy tất cả các hàng trong bảng
+            let rows = document.querySelectorAll('tr[data-id]');
+
+            rows.forEach(row => {
+                // Xóa các highlight trước đó
+                row.classList.remove('highlight');
+                row.style.border = 'none';
+                if (row.dataset.id == id) {
+                    // Thêm highlight và viền đỏ cho dòng được chọn
                     row.classList.add('highlight');
+                    row.style.border = '2px solid red';
+
+                    // Scroll tới dòng được chọn
                     row.scrollIntoView({
                         behavior: 'smooth',
                         block: 'center'
                     });
-                    found = true;
-                } else {
-                    row.classList.remove('highlight');
                 }
             });
-
-            // Display search results dynamically with ID and Name
-            let searchResults = document.getElementById('searchResults');
-            searchResults.innerHTML = '';
-            if (input.length > 0) {
-                rows.forEach(function(row) {
-                    let name = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-                    let id = row.querySelector('td:nth-child(1)').textContent; // Get the ID from the first column
-                    if (name.indexOf(input) > -1) {
-                        let resultItem = document.createElement('a');
-                        resultItem.textContent = `ID: ${id} - ${row.querySelector('td:nth-child(3)').textContent}`; // Show both ID and Name
-                        resultItem.onclick = function() {
-                            // Remove highlight class from all rows first
-                            rows.forEach(function(row) {
-                                row.classList.remove('highlight');
-                            });
-
-                            // Add highlight to the selected row
-                            row.classList.add('highlight');
-                            row.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'center'
-                            });
-                        };
-                        searchResults.appendChild(resultItem);
-                    }
-                });
-                searchResults.style.display = found ? 'block' : 'none';
-            } else {
-                searchResults.style.display = 'none';
-            }
         }
     </script>
-
-
-
 </body>
 
 </html>
