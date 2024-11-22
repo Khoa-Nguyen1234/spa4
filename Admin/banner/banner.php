@@ -124,7 +124,7 @@ $result = $conn->query($sql);
         }
 
         .banner-img {
-            width: 100px;
+            width: 300px;
             height: auto;
             border-radius: 5px;
         }
@@ -200,7 +200,8 @@ $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
                         echo "<td>" . $row['id_banner'] . "</td>";
-                        echo "<td><img src='" . htmlspecialchars($row['image_path']) . "' class='banner-img' alt='Banner'></td>";
+                        echo "<td><img src='../img/banner/" . htmlspecialchars($row['image_path']) . "' class='banner-img' alt='Banner'></td>";
+
                         echo "<td>" . htmlspecialchars($row['title']) . "</td>";
                         echo "<td>" . ucfirst($row['status']) . "</td>";
                         echo "<td>" . $row['created_at'] . "</td>";

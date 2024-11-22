@@ -138,6 +138,13 @@
             height: auto;
             border-radius: 5px;
         }
+
+        /* Highlight matched rows */
+        .highlight {
+            background-color: red !important;
+            color: white;
+            transition: background-color 1s ease-out;
+        }
     </style>
 
     <body>
@@ -175,9 +182,9 @@
             <!-- NAVBAR -->
             <nav>
                 <i class='bx bx-menu toggle-sidebar'></i>
-                <form action="#">
+                <form id="searchForm" action="#">
                     <div class="form-group">
-                        <input type="text" placeholder="Search...">
+                        <input type="text" id="searchInput" placeholder="Search service...">
                         <i class='bx bx-search icon'></i>
                     </div>
                 </form>
@@ -241,7 +248,7 @@
                                 echo "<td>" . htmlspecialchars($row["ten_dichvu"]) . "</td>";
                                 echo "<td>" . number_format($row['gia'], 0, ',', '.') . " VND</td>";
                                 // Hiển thị hình ảnh
-                                echo "<td><img src='" . htmlspecialchars($row["image_path"]) . "' alt='Hình ảnh dịch vụ' class='service-image'></td>";
+                                echo "<td><img src='../img/service/" . htmlspecialchars($row["image_path"]) . "' alt='Hình ảnh dịch vụ' class='service-image'></td>";
                                 echo "<td>";
                                 // Nút Sửa
                                 echo '<a href="edit_service.php?id=' . $row["id_dichvu"] . '" class="btn-edit">Sửa</a> ';
@@ -263,6 +270,47 @@
 
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <script src="../script.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const searchInput = document.getElementById("searchInput");
+                const tableRows = document.querySelectorAll("table tbody tr");
+
+                searchInput.addEventListener("input", function() {
+                    const query = searchInput.value.toLowerCase();
+
+                    // Kiểm tra nếu trường tìm kiếm không trống và có ít nhất 2 ký tự
+                    if (query.trim().length >= 2) {
+                        // Lọc các dòng bảng dựa trên dữ liệu nhập vào
+                        tableRows.forEach(row => {
+                            const serviceName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+                            if (serviceName.includes(query)) {
+                                row.style.display = ""; // Hiển thị dòng nếu có kết quả phù hợp
+                            } else {
+                                row.style.display = "none"; // Ẩn dòng nếu không có kết quả
+                            }
+                        });
+
+                        // Làm nổi bật các dòng phù hợp trong 5 giây
+                        tableRows.forEach(row => {
+                            const serviceName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+                            if (serviceName.includes(query)) {
+                                row.classList.add("highlight");
+                                setTimeout(() => {
+                                    row.classList.remove("highlight");
+                                }, 5000); // Loại bỏ hiệu ứng highlight sau 5 giây
+                            }
+                        });
+                    } else {
+                        // Nếu không có đủ ký tự (dưới 2 ký tự), hiển thị tất cả các dòng
+                        tableRows.forEach(row => {
+                            row.style.display = ""; // Hiển thị tất cả dòng
+                            row.classList.remove("highlight"); // Loại bỏ hiệu ứng highlight nếu có
+                        });
+                    }
+                });
+            });
+        </script>
+
     </body>
 
     </html>

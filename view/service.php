@@ -1,113 +1,43 @@
-    <!-- <style>
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+<?php
+// Kết nối cơ sở dữ liệu
+require_once('../model/db.php'); // Thêm đúng đường dẫn đến file db.php
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+// Lấy kết nối từ Database Singleton
+$db = Database::getInstance();
+$conn = $db->getConnection();
 
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: -15px;
-        }
+// Truy vấn dữ liệu từ bảng 'dichvu'
+$sql = "SELECT * FROM dichvu";
+$result = $conn->query($sql);
+?>
 
-        .col-lg-4 {
-            width: 33.333%;
-            padding: 15px;
-            box-sizing: border-box;
-        }
+<!-- Section Title -->
+<div class="container section-title" data-aos="fade-up">
+    <h2>Dịch vụ bạn đang quan tâm</h2>
+</div><!-- End Section Title -->
 
-        .service-item {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            text-align: center;
-        }
+<div class="container">
 
-        .service-item img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .stretched-link {
-            display: block;
-        }
-
-        @media (max-width: 992px) {
-            .col-lg-4 {
-                width: 50%;
+    <div class="row gy-4">
+        <?php
+        if ($result->num_rows > 0) {
+            // Duyệt qua kết quả và hiển thị từng dịch vụ
+            $delay = 100;
+            while ($row = $result->fetch_assoc()) {
+                // Hiển thị dịch vụ với hình ảnh
+                echo '<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="' . $delay . '">';
+                echo '<div class="service-item position-relative">';
+                echo '<img src="../Admin/img/service/' . htmlspecialchars($row['image_path']) . '" width="100%">';
+                echo '</div>';
+                echo '</div>';
+                $delay += 100; // Tăng độ trễ cho từng dịch vụ
             }
+        } else {
+            echo '<p>Không có dịch vụ nào.</p>';
         }
-
-        @media (max-width: 768px) {
-            .col-lg-4 {
-                width: 100%;
-            }
-        }
-    </style> -->
-    <!-- Services Section -->
-
-
-    <!-- Section Title -->
-    <div class="container section-title" data-aos="fade-up">
-        <h2>Dịch vụ bạn đang quan tâm</h2>
-    </div><!-- End Section Title -->
-
-    <div class="container">
-
-        <div class="row gy-4">
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="service-item  position-relative">
-                    <img src="./assets/img/service1.png" width="100%">
-                </div>
-            </div><!-- End Service Item -->
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="service-item position-relative">
-                    <img src="./assets/img/service2.png" width="100%">
-                </div>
-            </div><!-- End Service Item -->
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="service-item position-relative">
-                    <img src="./assets/img/service3.png" width="100%">
-                </div>
-            </div><!-- End Service Item -->
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                <div class="service-item position-relative">
-                    <a href="service-details.html" class="stretched-link">
-                        <img src="./assets/img/service4.png" width="100%">
-                    </a>
-                </div>
-            </div><!-- End Service Item -->
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-                <div class="service-item position-relative">
-                    <a href="service-details.html" class="stretched-link">
-                        <img src="./assets/img/service5.png" width="100%">
-                    </a>
-                </div>
-            </div><!-- End Service Item -->
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-                <div class="service-item position-relative">
-                    <a href="service-details.html" class="stretched-link">
-                        <img src="./assets/img/service6.png" width="100%">
-                    </a>
-                </div>
-            </div><!-- End Service Item -->
-
-        </div>
-
+        ?>
     </div>
 
-    <!-- /Services Section -->
+</div>
+
+<!-- /Services Section -->

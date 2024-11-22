@@ -163,6 +163,40 @@
 </div>
 
 <script>
+    let swiper = new Swiper('.swiper.init-swiper', {
+        loop: true,
+        speed: 600,
+        autoplay: {
+            delay: 5000
+        },
+        slidesPerView: "auto",
+        pagination: {
+            el: ".swiper-pagination",
+            type: "bullets",
+            clickable: true
+        },
+        on: {
+            slideChange: function() {
+                // Khi slide thay đổi, đóng video cũ
+                const currentSlide = document.querySelector('.swiper-slide.swiper-slide-active');
+                const prevSlide = document.querySelector('.swiper-slide.swiper-slide-prev');
+
+                // Đóng video của slide trước khi vuốt sang slide mới
+                if (prevSlide) {
+                    const prevItemId = prevSlide.querySelector('.testimonial-item').id;
+                    closeVideo(prevItemId);
+                }
+
+                // Đóng video của slide hiện tại
+                if (currentSlide) {
+                    const currentItemId = currentSlide.querySelector('.testimonial-item').id;
+                    closeVideo(currentItemId);
+                }
+            }
+        }
+    });
+
+    // Hàm mở video
     function openVideo(itemId, videoUrl) {
         // Lấy phần tử video-box và iframe theo ID
         const videoBox = document.querySelector(`#${itemId} .video-box`);
@@ -177,6 +211,7 @@
         videoIframe.src = `${videoUrl}?autoplay=1`;
     }
 
+    // Hàm đóng video
     function closeVideo(itemId) {
         // Lấy phần tử video-box và iframe theo ID
         const videoBox = document.querySelector(`#${itemId} .video-box`);
