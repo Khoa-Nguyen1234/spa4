@@ -106,7 +106,7 @@ $result = $conn->query($query);
 
         /* Highlight searched rows */
         .highlight {
-            background-color: red !important;
+            background-color: #a0c4c7 !important;
         }
 
         /* Responsive Design */
@@ -223,16 +223,23 @@ $result = $conn->query($query);
                 }
             });
 
-            // Display search results dynamically
+            // Display search results dynamically with ID and Name
             let searchResults = document.getElementById('searchResults');
             searchResults.innerHTML = '';
             if (input.length > 0) {
                 rows.forEach(function(row) {
                     let name = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                    let id = row.querySelector('td:nth-child(1)').textContent; // Get the ID from the first column
                     if (name.indexOf(input) > -1) {
                         let resultItem = document.createElement('a');
-                        resultItem.textContent = row.querySelector('td:nth-child(3)').textContent;
+                        resultItem.textContent = `ID: ${id} - ${row.querySelector('td:nth-child(3)').textContent}`; // Show both ID and Name
                         resultItem.onclick = function() {
+                            // Remove highlight class from all rows first
+                            rows.forEach(function(row) {
+                                row.classList.remove('highlight');
+                            });
+
+                            // Add highlight to the selected row
                             row.classList.add('highlight');
                             row.scrollIntoView({
                                 behavior: 'smooth',
@@ -248,6 +255,8 @@ $result = $conn->query($query);
             }
         }
     </script>
+
+
 
 </body>
 
