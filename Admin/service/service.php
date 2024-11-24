@@ -208,6 +208,10 @@
                     <li class="divider">/</li>
                     <li><a href="#" class="active">Quản lý dịch vụ</a></li>
                 </ul>
+                <div style="margin-bottom: 20px; margin-top:30px">
+                    <a href="add_service.php" class="btn-edit" style="background-color: #007BFF; color: white;">Thêm dịch vụ</a>
+                </div>
+
 
                 <!-- Table to display services -->
                 <table border="1">

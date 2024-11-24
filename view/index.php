@@ -247,6 +247,96 @@
         right: 5%;
       }
     }
+
+    /* Add these styles for the voucher dialog */
+    .voucher-dialog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1002;
+      /* Higher than other elements */
+    }
+
+    .voucher-box,
+    .image-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .voucher-box {
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .image-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1003;
+      /* Higher than voucher-box */
+    }
+
+    .image-box img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    #voucherForm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    #voucherForm input,
+    #voucherForm button {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    #voucherForm button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #voucherForm button:hover {
+      background-color: #45a049;
+    }
+
+    #laterBtn {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    #laterBtn:hover {
+      background-color: #da190b;
+    }
   </style>
 </head>
 
@@ -357,7 +447,25 @@
       </a>
     </nav>
   </footer>
-
+  <!-- Add this before the closing </body> tag -->
+  <!-- Update the voucher dialog HTML structure -->
+  <div id="voucherDialog" class="voucher-dialog">
+    <div class="voucher-box">
+      <button id="closeVoucherBox" class="close-btn">&times;</button>
+      <h2>Đăng ký nhận tin khuyến mãi</h2>
+      <p>Voucher sẽ được gửi trong vòng 24h. Chỉ áp dụng cho khách hàng mới.</p>
+      <form id="voucherForm" action="../controller/pmcode.php" method="POST">
+        <input type="email" name="new_email" placeholder="Email" required>
+        <input type="tel" name="phone_number" placeholder="Số điện thoại" required>
+        <button type="submit">Đăng ký ngay</button>
+      </form>
+      <button id="laterBtn">Bữa khác nha</button>
+    </div>
+    <div id="imageBox" class="image-box">
+      <button id="closeImageBox" class="close-btn">&times;</button>
+      <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:768:/q:100/plain/https://cellphones.com.vn/media/catalog/product/h/e/header_teasing_mb.png" alt="Promo Image">
+    </div>
+  </div>
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -376,6 +484,38 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script>
+    // Existing JavaScript
+
+    // Add this to the existing script
+    document.addEventListener('DOMContentLoaded', function() {
+      const voucherDialog = document.getElementById('voucherDialog');
+      const imageBox = document.getElementById('imageBox');
+      const closeVoucherBox = document.getElementById('closeVoucherBox');
+      const closeImageBox = document.getElementById('closeImageBox');
+      const laterBtn = document.getElementById('laterBtn');
+      const voucherForm = document.getElementById('voucherForm');
+
+      function closeDialog() {
+        voucherDialog.style.display = 'none';
+      }
+
+      function closeImageBoxOnly() {
+        imageBox.style.display = 'none';
+      }
+
+      closeVoucherBox.addEventListener('click', closeDialog);
+      closeImageBox.addEventListener('click', closeImageBoxOnly);
+      laterBtn.addEventListener('click', closeDialog);
+
+      voucherForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Here you can add code to handle form submission
+        alert('Đăng ký thành công!');
+        closeDialog();
+      });
+    });
+  </script>
 
   <script>
     const chatWidget = document.getElementById('chatWidget');

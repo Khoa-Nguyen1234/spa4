@@ -1,40 +1,35 @@
 <?php
-// Kết nối cơ sở dữ liệu
-require_once('../../model/db.php'); // Thêm đúng đường dẫn đến file db.php
+require_once('../../model/db.php');
 
-// Lấy kết nối từ Database Singleton
-$db = Database::getInstance();
-$conn = $db->getConnection();
-
-// Khởi tạo biến thông báo lỗi và thành công
-$error = "";
-$success = "";
-
-// Kiểm tra nếu người dùng đã gửi form
+// Xử lý form khi người dùng gửi dữ liệu
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ten_dichvu = $_POST['ten_dichvu'];
     $gia = $_POST['gia'];
+    $image = $_FILES['image'];
 
-    // Kiểm tra dữ liệu đầu vào
-    if (empty($ten_dichvu) || empty($gia)) {
-        $error = "Vui lòng nhập đầy đủ thông tin dịch vụ!";
-    } else {
-        // Chuẩn bị câu lệnh INSERT
-        $sql = "INSERT INTO dichvu (ten_dichvu, gia) VALUES (?, ?)";
+    // Đường dẫn lưu ảnh
+    $target_dir = "../img/service/";
+    $target_file = $target_dir . basename($image["name"]);
+    $upload_ok = 1;
 
-        // Sử dụng prepared statement để bảo vệ khỏi SQL injection
+    // Kiểm tra upload ảnh
+    if (move_uploaded_file($image["tmp_name"], $target_file)) {
+        // Kết nối cơ sở dữ liệu
+        $db = Database::getInstance();
+        $conn = $db->getConnection();
+
+        // Thêm dữ liệu vào bảng 'dichvu'
+        $sql = "INSERT INTO dichvu (ten_dichvu, gia, image_path) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sd", $ten_dichvu, $gia);
+        $stmt->bind_param("sis", $ten_dichvu, $gia, basename($image["name"]));
 
-        // Thực thi câu lệnh và kiểm tra kết quả
         if ($stmt->execute()) {
-            $success = "Dịch vụ đã được thêm thành công!";
+            echo "<script>alert('Thêm dịch vụ thành công!'); window.location.href='service.php';</script>";
         } else {
-            $error = "Đã có lỗi xảy ra khi thêm dịch vụ.";
+            echo "Lỗi khi thêm dịch vụ: " . $conn->error;
         }
-
-        // Đóng câu lệnh prepared
-        $stmt->close();
+    } else {
+        echo "<script>alert('Không thể tải lên ảnh!');</script>";
     }
 }
 ?>
@@ -45,198 +40,145 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <title>Thêm dịch vụ</title>
     <link rel="stylesheet" href="../style.css">
-    <title>Thêm Dịch Vụ</title>
-    <link href="../img/icons8-spa-flower-96.png" rel="icon">
+    <style>
+        /* Cấu hình chung cho body */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Container chính */
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Tiêu đề trang */
+        .form-header {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .form-header::after {
+            content: "";
+            width: 50px;
+            height: 3px;
+            background: #3498db;
+            display: block;
+            margin: 10px auto 0;
+        }
+
+        /* Cấu hình cho các nhãn */
+        form label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+        /* Cấu hình cho các input */
+        form input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #f8f9fa;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        form input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+            outline: none;
+        }
+
+        /* Cấu hình cho nút submit */
+        form button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        /* Cấu hình cho nút quay lại */
+        .return-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-weight: 600;
+        }
+
+        .return-button:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+    </style>
+
+
 </head>
-<style>
-    /* Form Heading */
-    form h2 {
-        text-align: center;
-        font-size: 28px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 30px;
-    }
-
-    /* Add Group for Form Fields */
-    .add-group,
-    .price-group {
-        margin-bottom: 20px;
-    }
-
-    /* Label Styling */
-    .add-group label,
-    .price-group label {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 8px;
-        display: block;
-    }
-
-    /* Input Field Styling */
-    .form-control {
-        width: 100%;
-        padding: 12px 15px;
-        font-size: 16px;
-        color: #333;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        box-sizing: border-box;
-        /* To make sure padding is included in width */
-        transition: all 0.3s ease;
-    }
-
-    /* Focused Input Field Styling */
-    .form-control:focus {
-        border-color: #4CAF50;
-        outline: none;
-        background-color: #fff;
-        box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-    }
-
-    /* Button Styling */
-    .btn {
-        width: 100%;
-        padding: 15px;
-        background-color: #4CAF50;
-        color: white;
-        font-size: 18px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        text-transform: uppercase;
-        transition: background-color 0.3s ease;
-    }
-
-    /* Button Hover Effect */
-    .btn:hover {
-        background-color: #45a049;
-    }
-
-    /* Button Active State */
-    .btn:active {
-        background-color: #388e3c;
-    }
-
-    /* Placeholder Styling */
-    .form-control::placeholder {
-        color: #aaa;
-        font-style: italic;
-    }
-
-    /* Error / Success Messages */
-    .alert {
-        padding: 15px;
-        border-radius: 5px;
-        margin-top: 15px;
-        text-align: center;
-    }
-
-    .alert-success {
-        background-color: #d4edda;
-        color: #155724;
-    }
-
-    .alert-error {
-        background-color: #f8d7da;
-        color: #721c24;
-    }
-
-    /* Style for the price input group */
-    .input-group {
-        position: relative;
-    }
-
-    .input-group-addon {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 18px;
-        color: #4CAF50;
-    }
-
-    .form-control {
-        padding-left: 35px;
-        /* Space for the currency symbol */
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .form-control:focus {
-        border-color: #4CAF50;
-        box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-    }
-</style>
 
 <body>
-
-    <!-- SIDEBAR -->
-    <section id="sidebar">
-        <a href="#" class="brand"><i class='bx bxs-smile icon'></i> AdminSite</a>
-        <ul class="side-menu">
-            <li><a href="../index.php" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
-            <li class="divider" data-text="main">Main</li>
-            <li>
-                <a href="./service.php"><i class='bx bxs-inbox icon'></i> Trở về </i></a>
-            </li>
-        </ul>
-    </section>
-    <!-- SIDEBAR -->
-
-    <!-- NAVBAR -->
-    <section id="content">
-        <nav>
-            <i class='bx bx-menu toggle-sidebar'></i>
-            <form action="#">
-                <div class="form-group">
-                    <input type="text" placeholder="Search...">
-                    <i class='bx bx-search icon'></i>
-                </div>
-            </form>
-        </nav>
-        <!-- NAVBAR -->
-
-        <!-- MAIN -->
-        <main>
-
-
-            <?php if ($error): ?>
-                <div class="alert alert-danger"><?php echo $error; ?></div>
-            <?php elseif ($success): ?>
-                <div class="alert alert-success"><?php echo $success; ?></div>
-            <?php endif; ?>
-
-            <form action="add_service.php" method="POST">
-                <h2>Thêm Dịch Vụ</h2>
-
-                <div class="add-group">
-                    <label for="ten_dichvu">Tên Dịch Vụ</label>
-                    <input type="text" name="ten_dichvu" id="ten_dichvu" class="form-control" placeholder="Nhập tên dịch vụ" required>
-                </div>
-
-                <div class="price-group">
-                    <label for="gia">Giá Dịch Vụ</label>
-                    <div class="input-group">
-                        <span class="input-group-addon">₫</span>
-                        <input type="number" name="gia" id="gia" class="form-control" placeholder="Nhập giá dịch vụ" step="0.01" required min="0">
-                    </div>
-                </div>
-
-                <button type="submit" class="btn">Thêm Dịch Vụ</button>
-            </form>
-
-
-        </main>
-        <!-- MAIN -->
-    </section>
-    <!-- NAVBAR -->
-
-    <script src="../script.js"></script>
+    <div class="form-container">
+        <a href="service.php" class="return-button">Quay về</a>
+        <h1 class="form-header">Thêm dịch vụ mới</h1>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="ten_dichvu">Tên dịch vụ:</label>
+                <input type="text" id="ten_dichvu" name="ten_dichvu" required>
+            </div>
+            <div>
+                <label for="gia">Giá:</label>
+                <input type="number" id="gia" name="gia" required>
+            </div>
+            <div>
+                <label for="image">Hình ảnh:</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+            </div>
+            <button type="submit">Thêm</button>
+        </form>
+    </div>
 </body>
 
 </html>

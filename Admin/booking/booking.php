@@ -7,7 +7,7 @@ $db = Database::getInstance();
 $conn = $db->getConnection();
 
 // Define the number of records per page
-$records_per_page = 10;
+$records_per_page = 5;
 
 // Get the current page number from the URL, default is page 1
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -217,7 +217,7 @@ $total_pages = ceil($total_records / $records_per_page);
     <section id="content">
         <nav>
             <i class='bx bx-menu toggle-sidebar'></i>
-            <form action="" method="GET" id = "search-form">
+            <form action="" method="GET" id="search-form">
                 <div class="form-group">
                     <input
                         type="text"
