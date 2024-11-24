@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 22, 2024 lúc 05:41 PM
+-- Thời gian đã tạo: Th10 24, 2024 lúc 09:58 PM
 -- Phiên bản máy phục vụ: 10.4.27-MariaDB
 -- Phiên bản PHP: 8.2.0
 
@@ -96,12 +96,15 @@ CREATE TABLE `dichvu` (
 --
 
 INSERT INTO `dichvu` (`id_dichvu`, `ten_dichvu`, `gia`, `image_path`) VALUES
-(1, 'Xóa nốt ruồi mụn thịt', '39000.00', 'service1.png'),
-(2, 'Triệt lông super nano light', '79000.00', 'service2.png'),
-(3, 'Trẻ hóa thâm nách', '399000.00', 'service3.png'),
-(4, 'Chăm sóc da kim cương', '199000.00', 'service4.png'),
-(5, 'Chăm sóc da mụn chuẩn y khoa', '349000.00', 'service5.png'),
-(6, 'Ủ trắng nano face', '399000.00', 'service6.png');
+(15, 'Chăm sóc da', '199000.00', 'service1.png'),
+(16, 'Baby Skin', '500000.00', 'service2.png'),
+(17, 'Trẻ hóa, nâng cơ da', '4999000.00', 'service3.png'),
+(18, 'Meso Ultherapy', '2999000.00', 'service4.png'),
+(19, 'Peel da', '1500000.00', 'service5.png'),
+(20, 'Massage Body đá nóng', '249000.00', 'service6.png'),
+(21, 'Massage Chân', '149000.00', 'service7.png'),
+(22, 'GTDCD VIP 1', '140000.00', 'service8.png'),
+(23, 'GTDCD VIP 2', '49000.00', 'service9.png');
 
 -- --------------------------------------------------------
 
@@ -123,14 +126,20 @@ CREATE TABLE `phieu_dat` (
 --
 
 INSERT INTO `phieu_dat` (`id`, `id_dichvu`, `ten_dichvu`, `ho_va_ten`, `so_dien_thoai`, `thoi_gian_dat`) VALUES
-(1, 1, 'Xóa nốt ruồi mụn thịt', 'Khoa', '0903145032', '2024-11-22 09:40:53'),
-(2, 3, 'Trẻ hóa thâm nách', 'Đạt', '0914265890', '2024-11-22 09:41:22'),
-(3, 3, 'Trẻ hóa thâm nách', 'Đạt', '0835444761', '2024-11-22 09:43:29'),
-(4, 4, 'Chăm sóc da kim cương', 'Hoàng', '0903145032', '2024-11-22 09:43:44'),
-(5, 4, 'Chăm sóc da kim cương', 'Hoàng', '0909444143', '2024-11-22 10:16:45'),
-(6, 6, 'Ủ trắng nano face', 'Hiệp', '0358293198', '2024-11-22 17:30:57'),
-(7, 5, 'Chăm sóc da mụn chuẩn y khoa', 'Hùng', '0909444143', '2024-11-22 17:31:14'),
-(8, 4, 'Chăm sóc da kim cương', 'Thanh', '0792515165', '2024-11-22 17:32:15');
+(9, 15, 'Chăm sóc da', 'Khoa', '0903145032', '2024-11-25 03:45:09');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `pmcode`
+--
+
+CREATE TABLE `pmcode` (
+  `id` int(11) NOT NULL,
+  `new_email` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(15) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -184,6 +193,13 @@ ALTER TABLE `phieu_dat`
   ADD KEY `id_dichvu` (`id_dichvu`);
 
 --
+-- Chỉ mục cho bảng `pmcode`
+--
+ALTER TABLE `pmcode`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`new_email`);
+
+--
 -- Chỉ mục cho bảng `services_view`
 --
 ALTER TABLE `services_view`
@@ -209,13 +225,19 @@ ALTER TABLE `customer_images`
 -- AUTO_INCREMENT cho bảng `dichvu`
 --
 ALTER TABLE `dichvu`
-  MODIFY `id_dichvu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_dichvu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `phieu_dat`
 --
 ALTER TABLE `phieu_dat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT cho bảng `pmcode`
+--
+ALTER TABLE `pmcode`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `services_view`
