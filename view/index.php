@@ -405,7 +405,7 @@
     /* Existing close button styling */
     .close-btn {
       position: absolute;
-      top: 10px;
+      top: 0px;
       right: 10px;
       background: none;
       border: none;
@@ -436,7 +436,7 @@
       /* Larger width for ripple */
       height: 500%;
       /* Larger height for ripple */
-      top: 50%;
+      top: 30%;
       left: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%) scale(0);
@@ -447,31 +447,8 @@
     }
 
     /* Add a ripple animation */
-    @keyframes ripple {
-      0% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 1;
-      }
 
-      50% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0;
-      }
 
-      100% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 1;
-      }
-    }
-
-    .close-btn::after {
-      animation: ripple 2s infinite;
-    }
-
-    .close-btn:hover::after {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 0;
-    }
 
     #voucherForm {
       display: flex;
