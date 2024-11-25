@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($stmt->execute()) {
             // Chuyển hướng về trang login.php
-            header("Location: ../view/admin/Login-Admin.php");
+            header("Location: ../admin/Login-Admin.php");
             exit();
         } else {
             echo "Lỗi: " . $stmt->error;

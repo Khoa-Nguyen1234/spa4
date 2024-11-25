@@ -151,21 +151,27 @@
 
         <!-- SIDEBAR -->
         <section id="sidebar">
-            <a href="#" class="brand"><i class='bx bxs-smile icon'></i> AdminSite</a>
+            <a href="#" class="brand"><i class='bx bxs-smile icon'></i> Trang quản trị</a>
             <ul class="side-menu">
-                <li><a href="../index.php"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
-                <li class="divider" data-text="main">Main</li>
+                <li><a href="../index.php"><i class='bx bxs-dashboard icon'></i> Thống kê </a></li>
+                <li class="divider" data-text="Dịch vụ quản trị">Dịch vụ quản trị</li>
                 <li>
                     <a href="../booking/booking.php"><i class='bx bxs-inbox icon'></i> Phiếu đặt lịch </a>
                 </li>
                 <li><a href="./service.php" class="active"><i class='bx bxs-chart icon'></i> Quản lý dịch vụ</a></li>
                 <li><a href="../banner/banner.php"><i class='bx bxs-widget icon'></i>Banner</a></li>
-                <li class="divider" data-text="table and forms">Table and forms</li>
-                <li><a href="../customer/customer.php"><i class='bx bx-table icon'></i> Khách hàng</a></li>
-                <li>
-                    <a href="#"><i class='bx bxs-notepad icon'></i> Khu vực </a>
-                </li>
+                <li class="divider" data-text="Dịch vụ chưa active">Dịch vụ chưa active</li>
+			<li><a href="./customer/customer.php"><i class='bx bx-table icon'></i> Quản lý hóa đơn khách hàng</a></li>
+			<li>
+				<a href="#"><i class='bx bxs-notepad icon'></i> Quản lý lương nhân viên </a>
+			</li>
             </ul>
+            <div class="ads">
+			<div class="wrapper">
+            <a href="tel: 0339474333" class="btn-upgrade">Upgrade</a>
+				<p>Liên hệ <span>Zalo & sđt</span> 0339474333</p>
+			</div>
+		</div>
         </section>
         <!-- SIDEBAR -->
 
