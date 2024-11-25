@@ -330,6 +330,7 @@
       text-align: center;
     }
 
+    /* Container styling */
     .image-box {
       position: absolute;
       top: 50%;
@@ -337,12 +338,69 @@
       transform: translate(-50%, -50%);
       z-index: 1003;
       /* Higher than voucher-box */
+      display: inline-block;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      /* Stronger shadow for emphasis */
+      overflow: hidden;
+      transition: all 0.5s ease-in-out;
     }
 
+    /* Image styling */
     .image-box img {
       max-width: 100%;
       height: auto;
+      border-radius: 10px;
+      transition: all 0.5s ease-in-out;
     }
+
+    /* Ripple effect */
+    .image-box::before,
+    .image-box::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: rgba(255, 215, 0, 0.5);
+      /* More intense luxurious gold color */
+      border-radius: 50%;
+      transform: scale(0);
+      opacity: 1;
+      pointer-events: none;
+      transition: transform 1s ease-in-out, opacity 1.5s ease-in-out;
+    }
+
+    .image-box::after {
+      animation-delay: 0.5s;
+    }
+
+    /* Keyframes for wave animation */
+    @keyframes ripple {
+
+      0%,
+      100% {
+        transform: scale(0);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+
+    .image-box::before {
+      animation: ripple 1.5s infinite ease-in-out;
+    }
+
+    .image-box::after {
+      animation: ripple 1.5s 0.75s infinite ease-in-out;
+    }
+
 
     /* Existing close button styling */
     .close-btn {
