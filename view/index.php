@@ -408,7 +408,6 @@
       top: -10px;
       right: -5px;
       background: none;
-      border: 2px solid red;
       /* Red border */
       font-size: 24px;
       cursor: pointer;
