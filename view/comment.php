@@ -66,7 +66,7 @@
 <div class="container" data-aos="fade-up" data-aos-delay="100">
 
     <div class="swiper init-swiper">
-        <script type="application/json" class="swiper-config">
+    <script type="application/json" class="swiper-config">
             {
                 "loop": true,
                 "speed": 600,
@@ -88,7 +88,7 @@
                 <div class="testimonial-item" id="item-1">
                     <div class="container">
                         <img src="https://img.youtube.com/vi/L225X-pc7AE/hqdefault.jpg" alt="YouTube Thumbnail">
-                        <button class="button" onclick="openVideo('item-1', 'https://www.youtube.com/embed/L225X-pc7AE')">Xem Ngay</button>
+                        <button class="button" onclick="window.open('https://www.youtube.com/embed/L225X-pc7AE', '_blank')">Xem Ngay</button>
                     </div>
                     <div class="overlay" onclick="closeVideo('item-1')"></div>
                     <div class="video-box">
@@ -107,7 +107,7 @@
                 <div class="testimonial-item" id="item-2">
                     <div class="container">
                         <img src="https://img.youtube.com/vi/jHxgW3uDJwY/hqdefault.jpg" alt="YouTube Thumbnail">
-                        <button class="button" onclick="openVideo('item-2', 'https://www.youtube.com/embed/jHxgW3uDJwY')">Xem Ngay</button>
+                        <button class="button" onclick="window.open('https://www.youtube.com/embed/jHxgW3uDJwY', '_blank')">Xem Ngay</button>
                     </div>
                     <div class="overlay" onclick="closeVideo('item-2')"></div>
                     <div class="video-box">
@@ -125,7 +125,7 @@
                 <div class="testimonial-item" id="item-3">
                     <div class="container">
                         <img src="https://img.youtube.com/vi/kODeB3sxaW0/hqdefault.jpg" alt="YouTube Thumbnail">
-                        <button class="button" onclick="openVideo('item-3', 'https://www.youtube.com/embed/kODeB3sxaW0')">Xem Ngay</button>
+                        <button class="button" onclick="window.open('https://www.youtube.com/embed/kODeB3sxaW0', '_blank')">Xem Ngay</button>
                     </div>
                     <div class="overlay" onclick="closeVideo('item-3')"></div>
                     <div class="video-box">
@@ -143,7 +143,7 @@
                 <div class="testimonial-item" id="item-4">
                     <div class="container">
                         <img src="https://img.youtube.com/vi/r6Sa7B8Lscc/hqdefault.jpg" alt="YouTube Thumbnail">
-                        <button class="button" onclick="openVideo('item-4', 'https://www.youtube.com/embed/r6Sa7B8Lscc')">Xem Ngay</button>
+                        <button class="button" onclick="window.open('https://www.youtube.com/embed/r6Sa7B8Lscc', '_blank')">Xem Ngay</button>
                     </div>
                     <div class="overlay" onclick="closeVideo('item-4')"></div>
                     <div class="video-box">
@@ -163,32 +163,23 @@
 </div>
 
 <script>
-    // Khởi tạo Swiper
-    let swiper = new Swiper('.swiper.init-swiper', {
-        loop: true,
-        speed: 600,
-        autoplay: {
-            delay: 5000
-        },
-        slidesPerView: "auto",
-        pagination: {
-            el: ".swiper-pagination",
-            type: "bullets",
-            clickable: true
-        },
-        on: {
-            slideChangeTransitionStart: function() {
-                // Đóng tất cả video khi bắt đầu chuyển slide
-                const slides = document.querySelectorAll('.swiper-slide');
-                slides.forEach(slide => {
-                    const itemId = slide.querySelector('.testimonial-item')?.id;
-                    if (itemId) closeVideo(itemId);
-                });
-            }
-        }
-    });
+        const swiper = new Swiper('.swiper', {
+            loop: true,
+            speed: 600,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            slidesPerView: 'auto',
+            pagination: {
+                el: '.swiper-pagination',
+                type: 'bullets',
+                clickable: true,
+            },
+        });
     // Hàm mở video
     function openVideo(itemId, videoUrl) {
+
         // Lấy phần tử video-box và iframe theo ID
         const videoBox = document.querySelector(`#${itemId} .video-box`);
         const overlay = document.querySelector(`#${itemId} .overlay`);
@@ -200,10 +191,15 @@
 
         // Gán URL video để phát
         videoIframe.src = `${videoUrl}?autoplay=1`;
+                            // Dừng autoplay
+                            swiper.autoplay.stop();
     }
 
     // Hàm đóng video
     function closeVideo(itemId) {
+
+                    // Bật lại autoplay
+                    swiper.autoplay.start();
         // Lấy phần tử video-box và iframe theo ID
         const videoBox = document.querySelector(`#${itemId} .video-box`);
         const overlay = document.querySelector(`#${itemId} .overlay`);

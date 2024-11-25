@@ -4,12 +4,12 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Thaảm mỹ viện cỏ Beauty</title>
+  <title>Cỏ Beauty - Thẩm mỹ viện số 1</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="../Admin/img/icons8-spa-flower-96.png" rel="icon">
+  <link href="assets/img/logo-small-size.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
@@ -194,9 +194,53 @@
       border-radius: 50%;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
       transition: transform 0.3s ease;
+      animation: scaleLogo 2s infinite ease-in-out;
     }
 
     .zalo-icon img:hover {
+      transform: scale(1.1);
+    }
+
+    .facebook-icon {
+      position: fixed;
+      bottom: 220px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .facebook-icon img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      animation: scaleLogo 2s infinite ease-in-out;
+    }
+    .facebook-icon img:hover {
+      transform: scale(1.1);
+    }
+
+    .tiktok-icon img:hover {
+      transform: scale(1.1);
+    }
+
+    .tiktok-icon {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .tiktok-icon img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      animation: scaleLogo 2s infinite ease-in-out;
+    }
+
+    .tiktok-icon img:hover {
       transform: scale(1.1);
     }
 
@@ -235,7 +279,12 @@
       .zalo-icon {
         display: none;
       }
-
+      .facebook-icon {
+        display: none;
+      }
+      .image-box {
+        display: none;
+      }
       .chat-widget,
       .custom-footer {
         display: block;
@@ -319,10 +368,24 @@
       color: white;
       border: none;
       cursor: pointer;
+      animation: shake 2s infinite ease-in-out;
     }
 
     #voucherForm button:hover {
       background-color: #45a049;
+    }
+
+            /* Hiệu ứng rung rinh */
+    @keyframes shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      20%, 60% {
+        transform: translateX(-5px);
+      }
+      40%, 80% {
+        transform: translateX(5px);
+      }
     }
 
     #laterBtn {
@@ -390,25 +453,25 @@
   </section>
 
   <!-- Main screen chat box -->
-  <div class="main-chat-box">
+  <!-- <div class="main-chat-box">
     <button class="main-chat-button" onclick="toggleMainChat()">
       <i class="bi bi-chat-dots"></i>
     </button>
-  </div>
+  </div> -->
 
   <!-- Zalo icon -->
-  <a href="" target="_blank" class="zalo-icon">
-    <img src="./assets/img/icons8-zalo-48.png" alt="Chat on Zalo">
-  </a>
-  <a href="" target="_blank" class="facebook-icon">
+  <a href="https://www.facebook.com/leminhquangit/" target="_blank" class="facebook-icon">
     <img src="./assets/img/facebook.png" alt="Chat on Facebook">
   </a>
-  <a href="" target="_blank" class="tiktok-icon">
+  <a href="https://www.facebook.com/leminhquangit/" target="_blank" class="zalo-icon">
+    <img src="./assets/img/icons8-zalo-48.png" alt="Chat on Zalo">
+  </a>
+  <a href="https://www.tiktok.com/@leminhquangit" target="_blank" class="tiktok-icon">
     <img src="./assets/img/tiktok.png" alt="Chat on Tiktok">
   </a>
 
   <!-- Chat Widget -->
-  <div id="chatWidget" class="chat-widget">
+  <!-- <div id="chatWidget" class="chat-widget">
     <div class="chat-header">
       <h3>Chat với chúng tôi</h3>
       <button class="chat-close" onclick="toggleChat()">&times;</button>
@@ -420,30 +483,30 @@
       <input type="text" placeholder="Nhập tin nhắn...">
       <button onclick="sendMessage()">Gửi</button>
     </div>
-  </div>
+  </div> -->
 
   <!-- Footer Navigation -->
   <footer id="customFooter" class="custom-footer">
     <nav class="footer-nav">
-      <a href="#" class="footer-item">
+      <a href="tel:+84339474333" class="footer-item">
         <i class="bi bi-telephone"></i>
         <span>Hotline</span>
       </a>
-      <a href="#" class="footer-item">
+      <a href="#footer" class="footer-item">
         <i class="bi bi-calendar"></i>
         <span>Đặt hẹn</span>
       </a>
-      <a href="#" class="footer-item active" onclick="toggleChat()">
+      <!-- <a href="#" class="footer-item active" onclick="toggleChat()">
         <i class="bi bi-chat"></i>
         <span>CHAT NGAY</span>
+      </a> -->
+      <a href="#" class="footer-item">
+        <img src="./assets/img/icons8-zalo-48.png" alt="Zalo" style="width: 38px; height: 38px;">
+        <span>Zalo</span>
       </a>
       <a href="#" class="footer-item">
-        <i class="bi bi-geo-alt"></i>
-        <span>Chi Nhánh</span>
-      </a>
-      <a href="#" class="footer-item">
-        <i class="bi bi-gift"></i>
-        <span>Ưu đãi</span>
+      <img src="./assets/img/facebook.png" alt="Zalo" style="width: 38px; height: 38px;">
+        <span>Facebook</span>
       </a>
     </nav>
   </footer>
@@ -459,7 +522,7 @@
         <input type="tel" name="phone_number" placeholder="Số điện thoại" required>
         <button type="submit">Đăng ký ngay</button>
       </form>
-      <button id="laterBtn">Bữa khác nha</button>
+      <button id="laterBtn">Đăng ký sau</button>
     </div>
     <div id="imageBox" class="image-box">
       <button id="closeImageBox" class="close-btn">&times;</button>

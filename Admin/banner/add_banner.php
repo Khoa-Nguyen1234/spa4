@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Lưu thông tin vào cơ sở dữ liệu
         $sql = "INSERT INTO banners (image_path, title, status, created_at) VALUES (?, ?, ?, NOW())";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $targetFilePath, $title, $status);
+        $stmt->bind_param("sss", $fileName, $title, $status);
 
         if ($stmt->execute()) {
             echo "<script>alert('Banner đã được thêm thành công!'); window.location.href='banner.php';</script>";

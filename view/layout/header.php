@@ -130,7 +130,7 @@ $result = $conn->query("SELECT * FROM dichvu");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đặt Lịch Dịch Vụ</title>
+    <title>Đăng ký tư vấn ngay</title>
     <link rel="stylesheet" href="path_to_your_stylesheet.css"> <!-- Replace with your CSS path -->
 </head>
 
@@ -139,17 +139,17 @@ $result = $conn->query("SELECT * FROM dichvu");
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
             <a href="index.php" class="logo d-flex align-items-center">
-                <img src="../view/assets/img/resized_image_500x400.gif" width="100px" alt="">
+            <img src="../view/assets/img/logo-size-big.png" width="300px" alt="">
             </a>
 
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a href="#hero" class="active">Ưu đãi</a></li>
+                    <li><a href="#footer" class="active">Ưu đãi</a></li>
                     <li><a href="#services">Dịch vụ</a></li>
                     <li><a href="#customer">Khách hàng</a></li>
-                    <li><a href="#portfolio">Địa chỉ gần nhất</a></li>
+                    <!-- <li><a href="#portfolio">Địa chỉ gần nhất</a></li> -->
                     <li><a href="#team">Đội ngũ bác sĩ</a></li>
-                    <button id="BUTTON6198" class="btn-price-table" onclick="toggleForm()">BẢNG GIÁ</button>
+                    <button id="BUTTON6198" class="btn-price-table" onclick="toggleForm()">Nhận tư vấn ngay!</button>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
@@ -171,7 +171,7 @@ $result = $conn->query("SELECT * FROM dichvu");
     <!-- Form Đặt Lịch -->
     <div id="form-container" class="form-container">
         <form action="" method="POST">
-            <div class="form-title">Đặt lịch dịch vụ</div>
+            <div class="form-title">Đăng ký nhận tư vấn</div>
 
             <div class="form-group">
                 <input type="text" class="form-control" name="ho_va_ten" placeholder="Họ và tên" required>
@@ -205,6 +205,11 @@ $result = $conn->query("SELECT * FROM dichvu");
         function toggleForm() {
             var form = document.getElementById('form-container');
             form.style.display = form.style.display === 'block' ? 'none' : 'block';
+          // Cuộn về đầu trang với hiệu ứng mượt
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+            });
         }
     </script>
 

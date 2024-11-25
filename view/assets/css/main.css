@@ -241,9 +241,19 @@ h6 {
 }
 
 .header .logo img {
-    max-height: 50px;
+    max-height: 80px;
     margin-right: 8px;
+    animation: scaleLogo 2s infinite ease-in-out;
 }
+
+@keyframes scaleLogo {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
 
 .header .logo h1 {
     font-size: 30px;

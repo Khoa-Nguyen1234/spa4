@@ -154,10 +154,10 @@
 </div>
 <div class="timeline-item">
     <div class="content">
-        <h3>2020</h3>
+        <h3>2022</h3>
         <h4>HỆ THỐNG CHUỖI THẨM MỸ UY TÍN TẠI VIỆT NAM</h4>
         <p>
-            2020
+            2022
             HỆ THỐNG CHUỖI THẨM MỸ UY TÍN TẠI VIỆT NAM
             Trong suốt hành trình phủ sóng thương hiệu và phát triển, Viện thẩm mỹ DIVA không ngừng mở rộng các cơ sở làm đẹp để phục vụ nhu cầu “tân trang nhan sắc” ngày càng lớn của khách hàng. Tính tới thời điểm hiện tại Viện thẩm mỹ DIVA là thương hiệu được 10 triệu khách hàng tin tưởng và lựa chọn.
         </p>
