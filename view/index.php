@@ -408,13 +408,10 @@
       top: -10px;
       right: -5px;
       background: none;
-      /* Red border */
       font-size: 24px;
       cursor: pointer;
       outline: none;
       color: black;
-      border-radius: 50%;
-      padding: 5px;
       transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
     }
 
