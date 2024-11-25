@@ -422,7 +422,7 @@
       border-color: darkred;
     }
 
-    
+
     #voucherForm {
       display: flex;
       flex-direction: column;
@@ -446,6 +446,19 @@
 
     #voucherForm button:hover {
       background-color: #45a049;
+    }
+
+    /* Container styling */
+    .voucher-box {
+      position: relative;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      text-align: center;
     }
 
     /* Hiệu ứng rung rinh */
