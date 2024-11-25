@@ -216,6 +216,7 @@
       transition: transform 0.3s ease;
       animation: scaleLogo 2s infinite ease-in-out;
     }
+
     .facebook-icon img:hover {
       transform: scale(1.1);
     }
@@ -279,12 +280,15 @@
       .zalo-icon {
         display: none;
       }
+
       .facebook-icon {
         display: none;
       }
+
       .image-box {
         display: none;
       }
+
       .chat-widget,
       .custom-footer {
         display: block;
@@ -340,14 +344,75 @@
       height: auto;
     }
 
+    /* Existing close button styling */
     .close-btn {
       position: absolute;
       top: 10px;
       right: 10px;
       background: none;
       border: none;
-      font-size: 24px;
+      font-size: 36px;
+      /* Increase font size for better visibility */
       cursor: pointer;
+      outline: none;
+      padding: 20px;
+      /* Increase padding */
+      border-radius: 50%;
+      overflow: hidden;
+      transition: background 0.3s ease;
+      animation: ripple 2s infinite;
+    }
+
+    /* Hover effect: change background color to red and add ripple effect */
+    .close-btn:hover {
+      background: red;
+      /* Hover color */
+      box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+    }
+
+    /* Ripple effect */
+    .close-btn::after {
+      content: "";
+      position: absolute;
+      width: 500%;
+      /* Larger width for ripple */
+      height: 500%;
+      /* Larger height for ripple */
+      top: 50%;
+      left: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0);
+      background: rgba(255, 0, 145, 0.8);
+      /* More pronounced ripple effect */
+      transition: transform 0.5s ease, opacity 1s ease;
+      border-radius: 50%;
+    }
+
+    /* Add a ripple animation */
+    @keyframes ripple {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+      }
+
+      50% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+      }
+
+      100% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+      }
+    }
+
+    .close-btn::after {
+      animation: ripple 2s infinite;
+    }
+
+    .close-btn:hover::after {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
     }
 
     #voucherForm {
@@ -375,15 +440,21 @@
       background-color: #45a049;
     }
 
-            /* Hiệu ứng rung rinh */
+    /* Hiệu ứng rung rinh */
     @keyframes shake {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translateX(0);
       }
-      20%, 60% {
+
+      20%,
+      60% {
         transform: translateX(-5px);
       }
-      40%, 80% {
+
+      40%,
+      80% {
         transform: translateX(5px);
       }
     }
@@ -505,7 +576,7 @@
         <span>Zalo</span>
       </a>
       <a href="#" class="footer-item">
-      <img src="./assets/img/facebook.png" alt="Zalo" style="width: 38px; height: 38px;">
+        <img src="./assets/img/facebook.png" alt="Zalo" style="width: 38px; height: 38px;">
         <span>Facebook</span>
       </a>
     </nav>
