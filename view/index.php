@@ -405,50 +405,25 @@
     /* Existing close button styling */
     .close-btn {
       position: absolute;
-      top: 0px;
-      right: 10px;
+      top: -10px;
+      right: -5px;
       background: none;
-      border: none;
-      font-size: 36px;
-      /* Increase font size for better visibility */
+      border: 2px solid red;
+      /* Red border */
+      font-size: 24px;
       cursor: pointer;
       outline: none;
-      padding: 20px;
-      /* Increase padding */
+      color: black;
       border-radius: 50%;
-      overflow: hidden;
-      transition: background 0.3s ease;
-      animation: ripple 2s infinite;
+      padding: 5px;
+      transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
     }
 
-    /* Hover effect: change background color to red and add ripple effect */
     .close-btn:hover {
-      background: red;
-      /* Hover color */
-      box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+      background-color: red;
+      color: white;
+      border-color: darkred;
     }
-
-    /* Ripple effect */
-    .close-btn::after {
-      content: "";
-      position: absolute;
-      width: 500%;
-      /* Larger width for ripple */
-      height: 500%;
-      /* Larger height for ripple */
-      top: 30%;
-      left: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%) scale(0);
-      background: rgba(255, 0, 145, 0.8);
-      /* More pronounced ripple effect */
-      transition: transform 0.5s ease, opacity 1s ease;
-      border-radius: 50%;
-    }
-
-    /* Add a ripple animation */
-
-
 
     #voucherForm {
       display: flex;
