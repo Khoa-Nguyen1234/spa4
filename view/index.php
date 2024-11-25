@@ -403,15 +403,16 @@
 
 
     /* Existing close button styling */
+    /* Button styling without black border */
     .close-btn {
       position: absolute;
       top: -10px;
       right: -5px;
-      background: none;
       font-size: 24px;
       cursor: pointer;
-      outline: none;
       color: black;
+      background: none;
+      border: none;
       transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
     }
 
@@ -421,6 +422,7 @@
       border-color: darkred;
     }
 
+    
     #voucherForm {
       display: flex;
       flex-direction: column;
