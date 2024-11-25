@@ -97,7 +97,7 @@
     <div class="container">
         <div class="heading">
             <h1>HỆ THỐNG CHI NHÁNH</h1>
-            <h2>VIỆN THẨM MỸ DIVA</h2>
+            <h2>VIỆN THẨM MỸ Cỏ Beauty</h2>
         </div>
 
         <div class="region-title">KHU VỰC MIỀN NAM</div>

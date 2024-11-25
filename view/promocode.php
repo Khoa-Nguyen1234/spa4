@@ -1,7 +1,7 @@
 <style>
     .image-section {
         flex: 1;
-        background-image: url('https://w.ladicdn.com/s1100x900/5d070c039197745e067c5e3d/mat-tien-tach-nen-3-1-20220908040735.png');
+        background-image: url('./assets/img/a.png');
         background-size: cover;
         background-position: center;
         position: relative;

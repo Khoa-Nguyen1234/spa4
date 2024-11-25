@@ -117,10 +117,10 @@
             </div>
             <div class="promotions">
                 <div class="promo-card">
-                    <img src="https://w.ladicdn.com/s750x750/5d070c039197745e067c5e3d/1018_fb-ads-2-bo-banner-ctkm-tang-vang-iphone-02-20241019045644-qkno4.jpg" alt="Vàng 9999" class="promo-image">
+                    <img src="./assets/img/b.png" alt="Vàng 9999" class="promo-image">
                 </div>
                 <div class="promo-card">
-                    <img src="https://w.ladicdn.com/s750x750/5d070c039197745e067c5e3d/1018_fb-ads-2-bo-banner-ctkm-tang-vang-iphone-03-20241019045643-ppkgr.jpg" alt="iPhone 16 Series" class="promo-image">
+                    <img src="./assets/img/c.png" alt="iPhone 16 Series" class="promo-image">
                 </div>
             </div>
             <button id="BUTTON6199" class="btn-price-table">BẢNG GIÁ</button>
